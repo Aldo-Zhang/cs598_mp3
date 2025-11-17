@@ -107,8 +107,14 @@ class Solution {{
 1. Python division `/` producing whole numbers → Java integer division and List<Integer>
    Example: `my_list.append(i / 2 + 1)` where result is whole → use `myList.add(i / 2 + 1)` and return `List<Integer>`
    
-2. Python None in return tuple → Java boxed type or Optional
-   Example: `return (max(list) if list else None, ...)` → use `Integer max = list.isEmpty() ? null : ...;` NOT `int max = ...`
+2. Python None in return tuple → Java Optional<Type>
+   Example: `return (max(list) if list else None, ...)` → wrap in Optional:
+   ```
+   Integer maxVal = list.isEmpty() ? null : Collections.max(list);
+   Integer minVal = list2.isEmpty() ? null : Collections.min(list2);
+   return Arrays.asList(maxVal != null ? Optional.of(maxVal) : Optional.empty(), 
+                        minVal != null ? Optional.of(minVal) : Optional.empty());
+   ```
 
 **Python code to translate:**
 
