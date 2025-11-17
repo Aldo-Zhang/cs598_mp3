@@ -256,8 +256,7 @@ class Solution {{
             )
 
             if compile_result.returncode != 0:
-                print(f"Compilation error for {
-                      task_id}: {compile_result.stderr}")
+                print(f"Compilation error for {task_id}: {compile_result.stderr}")
                 return False, "compilation_error"
 
             # Compile Main.java
