@@ -1,4 +1,4 @@
-source ~/anaconda3/bin/activate pytorch
+# source ~/anaconda3/bin/activate pytorch
 
 cd ~/CS598JBR-Team-5/MP3
 
