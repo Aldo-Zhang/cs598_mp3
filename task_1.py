@@ -416,8 +416,7 @@ def prompt_model(dataset, model_name="deepseek-ai/deepseek-coder-6.7b-instruct",
                 f"Warning: Could not extract Java code from response for {task_id}")
             validation_status = "extraction_failed"
 
-        print(f"Task_ID {entry['task_id']}:\nprompt:\n{
-              prompt}\nresponse:\n{response}\nis_correct:\n{verdict}\nvalidation_status:\n{validation_status}")
+        print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\nis_correct:\n{verdict}\nvalidation_status:\n{validation_status}")
         results.append({
             "task_id": task_id,
             "prompt": prompt,
