@@ -10,7 +10,7 @@ seed="54789384577748203278933559465614931523"
 input_python_dataset="selected_humanevalx_python_${seed}.jsonl"
 task_1_crafted_jsonl="task_1_${seed}_crafted.jsonl"
 
-python3 task_1.py \
+python3.12 task_1.py \
   "${input_python_dataset}" \
   "deepseek-ai/deepseek-coder-6.7b-instruct" \
   "${task_1_crafted_jsonl}" \

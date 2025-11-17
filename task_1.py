@@ -107,14 +107,20 @@ class Solution {{
 1. Python division `/` producing whole numbers → Java integer division and List<Integer>
    Example: `my_list.append(i / 2 + 1)` where result is whole → use `myList.add(i / 2 + 1)` and return `List<Integer>`
    
-2. Python None in return tuple → Java Optional<Type>
-   Example: `return (max(list) if list else None, ...)` → wrap in Optional:
+2. Python None in return tuple → Java List<Optional<Type>>
+   Example: `return (max(list) if list else None, ...)` → wrap in Optional with explicit type:
+   ```java
+   List<Integer> smallest = new ArrayList<>();
+   List<Integer> largest = new ArrayList<>();
+   for (Integer x : lst) {
+       if (x < 0) smallest.add(x);
+       else if (x > 0) largest.add(x);
+   }
+   Optional<Integer> maxVal = smallest.isEmpty() ? Optional.empty() : Optional.of(Collections.max(smallest));
+   Optional<Integer> minVal = largest.isEmpty() ? Optional.empty() : Optional.of(Collections.min(largest));
+   return Arrays.asList(maxVal, minVal);
    ```
-   Integer maxVal = list.isEmpty() ? null : Collections.max(list);
-   Integer minVal = list2.isEmpty() ? null : Collections.min(list2);
-   return Arrays.asList(maxVal != null ? Optional.of(maxVal) : Optional.empty(), 
-                        minVal != null ? Optional.of(minVal) : Optional.empty());
-   ```
+   Return type must be: `List<Optional<Integer>>`
 
 **Python code to translate:**
 
