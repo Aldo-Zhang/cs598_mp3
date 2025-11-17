@@ -284,8 +284,7 @@ class Solution {{
             if run_result.returncode == 0:
                 return True, "success"
             else:
-                print(f"Test execution failed for {
-                      task_id}: {run_result.stderr}")
+                print(f"Test execution failed for {task_id}: {run_result.stderr}")
                 return False, "test_failure"
 
         except subprocess.TimeoutExpired:
