@@ -1,0 +1,118 @@
+Tasks:
+
+<<1- Code Translation (from Python to Java)>>
+
+You must complete MP3/commands.py and MP3/task_1.py files under the “MP3” directory.
+
+Code translation is converting code snippets from one programming language to another. In this task, you will work with the HumanEval-x dataset to translate code from Python to Java. The structure of this dataset is similar to HumanEval, and the problem/task IDs are identical. The only difference is the programming language of the solution for the problems. For example, consider the problem of “HumanEval/0.” You can find the HumanEval-x entry corresponding to this problem below, which presents the prompt, canonical solution, and tests for this problem in two different programming languages: Python and Java.
+
+{
+ "task_id": "Python/0",
+ "prompt": "from typing import List\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n given threshold.\n >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n False\n >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n True\n \"\"\"\n",
+ "declaration": "from typing import List\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n",
+ "canonical_solution": " for idx, elem in enumerate(numbers):\n for idx2, elem2 in enumerate(numbers)\n if idx != idx2:\n distance = abs(elem - elem2)\n if distance < threshold:\n return True\n\n return False\n",
+ "test": "\n\nMETADATA = {\n 'author': 'jt',\n 'dataset': 'test'\n}\n\ndef check(has_close_elements):\n assert has_close_elements([1.0, 2.0, 3.9, 4.0, 5.0, 2.2], 0.05) == False\n assert has_close_elements([1.0, 2.0, 3.9, 4.0, 5.0, 2.2], 0.3) == True\n assert has_close_elements([1.0, 2.0, 5.9, 4.0, 5.0], 0.95) == True\n assert has_close_elements([1.0, 2.0, 5.9, 4.0, 5.0], 0.8) == False\n assert has_close_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0], 0.1) == True\n assert has_close_elements([1.1, 2.2, 3.1, 4.1, 5.1], 1.0) == True\n assert has_close_elements([1.1, 2.2, 3.1, 4.1, 5.1], 0.5) == False\n\ncheck(has_close_elements)",
+ "example_test": "def check(has_close_elements):\n assert has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3) == True\n\ncheck(has_close_elements)\n"
+}
+
+{
+ "task_id": "Java/0",
+ "prompt": "import java.util.*;\nimport java.lang.*;\nclass Solution {\n /**\n Check if in given list of numbers, are any two numbers closer to each other than given threshold.\n\n>>> hasCloseElements(Arrays.asList(1.0, 2.0, 3.0), 0.5)\n false\n\n >>> hasCloseElements(Arrays.asList(1.0, 2.8, 3.0, 4.0, 5.0, 2.0), 0.3)\n true\n */\n public boolean hasCloseElements(List<Double> numbers, double threshold) {\n",
+ "declaration": "import java.util.*;\nimport java.lang.*;\nclass Solution {\n\n public boolean hasCloseElements(List<Double> numbers, double threshold) {\n",
+ "canonical_solution": " for (int i = 0; i < numbers.size(); i++) {\n for (int j = i + 1; j < numbers.size(); j++) {\n double distance = Math.abs(numbers.get(i) - numbers.get(j));\n if (distance < threshold) {\n return true;\n }\n }\n }\n return false;\n }\n",
+ "test": "public class Main {\n public static void main(String[] args) {\n Solution s = new Solution();\n List<Boolean> correct = Arrays.asList(\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.9, 4.0, 5.0, 2.2)), 0.3),\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.9, 4.0, 5.0, 2.2)), 0.05),\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 5.9, 4.0, 5.0)), 0.95),\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 5.9, 4.0, 5.0)), 0.8),\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.0)), 0.1),\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.1, 2.2, 3.1, 4.1, 5.1)), 1.0),\n s.hasCloseElements(new ArrayList<>(Arrays.asList(1.1, 2.2, 3.1, 4.1, 5.1)), 0.5)\n );\n if (correct.contains(false)) {\n throw new AssertionError();\n }\n }\n}\n"
+}
+
+To make it easy for you, we have already written a script to extract the version of your identical dataset in HumanEval-x: run MP3/humanevalx_dataset_generation.py with the file path of your HumanEval dataset (selected_humaneval_{seed_value}.jsonl). Running this command will generate selected_humanevalx_python_{seed_value}.jsonl and selected_humanevalx_java_{seed_value}.jsonl, which you will use in this task.
+
+You should prompt the model to translate the code under the “canonical solution” in Python (highlighted in yellow) to Java and use the Java “tests” (highlighted in red) to validate the translated code. You may also need to use prompt items in Python or declaration items in Java as part of your pipeline (highlighted in blue). If DeepSeekCoder generates Java code that passes the tests, then the translation has been successful. Otherwise, the translation is failed. Here is a sample vanilla prompt with the response.
+
+You are an AI programming assistant utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+### Instruction:
+
+Can you translate the following Python code into Java?
+The new Java code must be enclosed between [Java Start] and [Java End]
+
+from typing import List
+def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    for idx, elem in enumerate(numbers):
+        for idx2, elem2 in enumerate(numbers):
+            if idx != idx2:
+                distance = elem - elem2
+                if distance < threshold:
+                    return True
+    return False
+
+### Response:
+
+[Java Start]
+public static boolean hasCloseElements(List<Double> numbers, double threshold) {
+    for (int i = 0; i < numbers.size(); i++) {
+        for (int j = 0; j < numbers.size(); j++) {
+            if (i != j) {
+                double distance = Math.abs(numbers.get(i) - numbers.get(j));
+                if (distance < threshold) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+[Java End]
+
+For this example, the model successfully translates the Python code to a Java version that passes all the tests. For the cases where vanilla prompting is not successful, you should do prompt engineering to improve the model’s performance, i.e., provide more context to see if this can help the model produce a better result. Such contexts include an in-context example, modifying the natural language instruction to help the model better understand the problem, asking the model to explain the process step by step, etc. We expect your prompt crafting to increase the performance of the model from vanilla prompting to prompt crafting by 20%-50%.
+
+After receiving the response, you should parse the Java code and run it with the test to evaluate whether the translation succeeds. To automate the experiments, you should write code to execute the tests and store the result as a True/False in the deliverable JSON file for each problem with a key value “is_correct,” as we did in MP2. This could be as simple as adding the translation from the model into the test classes in the dataset. Note that you may need to modify the translation, e.g., add the class name or rename the class name if included in the response, in order to run the validation code. For example, to validate the above translation provided by the model, you replace it in the test class below (note that HumanEval-X uses an ugly way of validating the implementation by hard-copying the inputs in the code rather than writing unit tests. However, this is fine for the purpose of this MP). You need to add the “Solution” class declaration and copy the implementation inside it.
+
+//Test code
+public class Main {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        List<Boolean> correct = Arrays.asList(
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(11.0, 2.0, 3.9, 4.0, 5.0, 2.2)), 0.3),
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.9, 4.0, 5.0, 2.2)), 0.05),
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 5.9, 4.0, 5.0)), 0.95),
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 5.9, 4.0, 5.0)), 0.8),
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.0)), 0.1),
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(1.1, 2.2, 3.1, 4.1, 5.1)), 1.0),
+            s.hasCloseElements(new ArrayList<>(Arrays.asList(1.1, 2.2, 3.1, 4.1, 5.1)), 0.5)
+        );
+        if (correct.contains(false)) {
+            throw new AssertionError();
+        }
+    }
+}
+
+//Main code from the model’s response, you should wrap function into class “Solution”
+class Solution {
+    public static boolean hasCloseElements(List<Double> numbers, double threshold) {
+        for (int i = 0; i < numbers.size(); i++) {
+            for (int j = 0; j < numbers.size(); j++) {
+                if (i != j) {
+                    double distance = Math.abs(numbers.get(i) - numbers.get(j));
+                    if (distance < threshold) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
+
+The “is_correct” value of the above example is True since the generated translation passes all the tests. You should save all the results into JSONL files: task_1_{seed_value}_vanilla.jsonl (this is for storing the vanilla prompting results) and task_1_{seed_value}_crafted.jsonl (this is for storing the results for prompt crafting (only submit the final results)). Each problem is an item in your JSONL file, for which you should store (1) the problem id, (2) the prompt, (3) the model’s response, and (4) the “is_correct” value. You also need to upload the log files generated into the GitHub repo.
+
+Deliverables for Task 1:
+Explicit deliverables to be uploaded on the GitHub are:
+- selected_humanevalx_python_{seed_value}.jsonl [10 points]
+- selected_humanevalx_java_{seed_value}.jsonl [10 points]
+- task_1.py (This includes correctly parsing and executing Java code(s) [40 points]
+- task_1_{seed_value}_vanilla.jsonl [20 points, 1 point per each problem]
+- task_1_{seed_value}_crafted.jsonl [80 points, 4 points per each problem]
+- task_1_vanilla.log [10 points]
+- task_1_crafted.log [10 points]
+- Update section MP3 of the progress report with the following information (please create a subsection for MP3-Task 1):
+  o What changes to the vanilla prompt help the model to perform better on this task? Please include a table showing the pairwise comparison of the is_correct value per each program for vanilla prompting and prompt crafting (have a table where each row shows vanilla prompting and prompt crafting results per each program). If a translation results in a compilation error and does not reach the test execution phase, please mark its outcome as “False (compilation issue)” in this table [20 points]
+  o Discuss the circumstances and examples of when the model can or cannot correctly translate the code. What properties in the source code make it more challenging for the LLM to translate it into target code? Do you observe a prevalent cause of translation failure in your dataset, test failure, or compilation error? What is the most prevalent cause of translation failure you observe? [40 points]

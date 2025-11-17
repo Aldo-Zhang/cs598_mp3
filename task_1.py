@@ -399,6 +399,8 @@ def prompt_model(dataset, model_name="deepseek-ai/deepseek-coder-6.7b-instruct",
 
                 if java_entry:
                     test_code = f'''import java.util.*;
+import java.lang.*;
+
 {java_entry.get('test', '')}
 '''
                     verdict, validation_status = validate_java_code(
