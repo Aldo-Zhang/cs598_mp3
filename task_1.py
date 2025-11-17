@@ -112,10 +112,10 @@ class Solution {{
    ```java
    List<Integer> smallest = new ArrayList<>();
    List<Integer> largest = new ArrayList<>();
-   for (Integer x : lst) {
+   for (Integer x : lst) {{
        if (x < 0) smallest.add(x);
        else if (x > 0) largest.add(x);
-   }
+   }}
    Optional<Integer> maxVal = smallest.isEmpty() ? Optional.empty() : Optional.of(Collections.max(smallest));
    Optional<Integer> minVal = largest.isEmpty() ? Optional.empty() : Optional.of(Collections.min(largest));
    return Arrays.asList(maxVal, minVal);
